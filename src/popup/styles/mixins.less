@@ -1,0 +1,264 @@
+/**
+ * Less Mixins - 可复用样式片段
+ * 基于 Synchronous Core 设计规范优化
+ */
+
+// 导入变量
+@import './variables.less';
+
+// ==================== 布局 Mixins ====================
+
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column(@gap: @spacing-md) {
+  display: flex;
+  flex-direction: column;
+  gap: @gap;
+}
+
+// ==================== 文本 Mixins ====================
+
+.text-ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-muted() {
+  color: @text-color-secondary;
+  font-size: @font-size-xs;
+  line-height: @line-height-base;
+}
+
+.text-mono() {
+  font-family: @font-family-mono;
+  letter-spacing: @letter-spacing-tight;
+}
+
+.text-headline() {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  line-height: 24px;
+  letter-spacing: @letter-spacing-tight;
+  color: @text-color;
+}
+
+// ==================== 卡片 Mixins ====================
+
+.card-base() {
+  padding: @spacing-lg;
+  border: @border-width-base @border-style-base @border-color;
+  border-radius: @border-radius-base;
+  background: @bg-color-white;
+  transition: all @transition-base ease;
+}
+
+.card-hover() {
+  &:hover {
+    border-color: @primary-color;
+    box-shadow: @shadow-base;
+    transform: translateY(-2px);
+  }
+}
+
+.card-interactive() {
+  .card-base();
+  .card-hover();
+  
+  cursor: pointer;
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ==================== 按钮 Mixins ====================
+
+.button-text() {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: @spacing-xs;
+  border-radius: @border-radius-full;
+  transition: all @transition-fast ease;
+  
+  &:hover {
+    background: @surface-container;
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.button-primary() {
+  background: @primary-color;
+  color: #ffffff;
+  border: none;
+  border-radius: @border-radius-base;
+  padding: @spacing-sm @spacing-lg;
+  font-weight: @font-weight-medium;
+  cursor: pointer;
+  transition: all @transition-base ease;
+  
+  &:hover {
+    background: @primary-hover;
+    box-shadow: @shadow-sm;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.button-ghost() {
+  background: transparent;
+  border: none;
+  color: @text-color-secondary;
+  cursor: pointer;
+  padding: @spacing-xs;
+  border-radius: @border-radius-full;
+  transition: all @transition-fast ease;
+  
+  &:hover {
+    background: @surface-container-high;
+    color: @text-color;
+  }
+}
+
+.button-destructive() {
+  .button-ghost();
+  color: @error-color;
+  
+  &:hover {
+    background: @error-container;
+    color: @error-color;
+  }
+}
+
+// ==================== 状态指示器 Mixins ====================
+
+.status-dot(@color: @status-idle) {
+  width: 8px;
+  height: 8px;
+  border-radius: @border-radius-full;
+  background: @color;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-badge(@color: @status-idle) {
+  display: inline-flex;
+  align-items: center;
+  gap: @spacing-xs;
+  font-size: @font-size-xs;
+  color: @text-color-secondary;
+  
+  &::before {
+    .status-dot(@color);
+  }
+}
+
+// ==================== 输入框 Mixins ====================
+
+.input-base() {
+  border: @border-width-base @border-style-base @outline-variant;
+  border-radius: @border-radius-base;
+  padding: @spacing-sm @spacing-md;
+  font-size: @font-size-base;
+  transition: all @transition-fast ease;
+  
+  &:focus {
+    outline: none;
+    border-color: @primary-color;
+    box-shadow: @shadow-focus;
+  }
+}
+
+// ==================== 响应式 Mixins ====================
+
+// 使用示例：.responsive-mobile({ ... });
+.responsive-mobile(@rules) {
+  @media (max-width: 480px) {
+    @rules();
+  }
+}
+
+.responsive-tablet(@rules) {
+  @media (max-width: 768px) {
+    @rules();
+  }
+}
+
+// ==================== 滚动条 Mixins ====================
+
+.scrollbar-custom() {
+  &::-webkit-scrollbar {
+    width: @scrollbar-size;
+    height: @scrollbar-size;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: @scrollbar-bg;
+    border-radius: @scrollbar-size / 2;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: @scrollbar-thumb-bg;
+    border-radius: @scrollbar-size / 2;
+    
+    &:hover {
+      background: @scrollbar-thumb-hover-bg;
+    }
+  }
+}
+
+// ==================== 弹窗 Mixins ====================
+
+.modal-overlay() {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 28, 48, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+.modal-content() {
+  background: @bg-color-white;
+  border-radius: @border-radius-lg;
+  box-shadow: @shadow-lg;
+  border: @border-width-base @border-style-base @outline-variant;
+  overflow: hidden;
+}
+
+// ==================== 标签 Mixins ====================
+
+.attr-tag-base() {
+  display: inline-block;
+  padding: @spacing-xs @spacing-sm;
+  border-radius: @border-radius-sm;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+}
+
+// ==================== 图标容器 Mixins ====================
+
+.icon-container(@size: 40px, @bg: @surface-container, @color: @primary-color) {
+  width: @size;
+  height: @size;
+  border-radius: @border-radius-full;
+  background: @bg;
+  .flex-center();
+  color: @color;
+  flex-shrink: 0;
+}
